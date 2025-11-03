@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: stockweb
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: cd src && python app.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: PYTHONPATH
+        value: /opt/render/project/src/src
