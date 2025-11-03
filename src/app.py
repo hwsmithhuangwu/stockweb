@@ -15,6 +15,10 @@ if os.environ.get('RAILWAY_ENVIRONMENT'):
     # Railway生产环境
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/stock.db'
     app.config['DEBUG'] = False
+elif os.environ.get('VERCEL'):
+    # Vercel生产环境
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/stock.db'
+    app.config['DEBUG'] = False
 else:
     # 本地开发环境
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///stock.db'
