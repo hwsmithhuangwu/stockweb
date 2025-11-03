@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}量化分析数据 - A股分析平台{% endblock %}
+
+{% block content %}
+<h2>量化分析数据</h2>
+<p class="text-muted">展示基于算法模型的量化交易信号和策略回测</p>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>日期</th>
+                <th>股票代码</th>
+                <th>股票名称</th>
+                <th>策略名称</th>
+                <th>信号类型</th>
+                <th>置信度</th>
+                <th>目标价格</th>
+                <th>止损价格</th>
+                <th>持有期(天)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data.items %}
+            <tr>
+                <td>{{ item.date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ item.stock_code }}</td>
+                <td>{{ item.stock_name }}</td>
+                <td>{{ item.strategy_name }}</td>
+                <td>
+                    <span class="badge {% if item.signal == '买入' %}bg-success{% elif item.signal == '卖出' %}bg-danger{% else %}bg-secondary{% endif %}">
+                        {{ item.signal }}
+                    </span>
+                </td>
+                <td>
+                    <div class="progress">
+                        <div class="progress-bar {% if item.confidence > 0.8 %}bg-success{% elif item.confidence > 0.6 %}bg-warning{% else %}bg-danger{% endif %}" 
+     role="progressbar" style="width: {{ item.confidence_percent }}%" 
+     aria-valuenow="{{ item.confidence_percent }}" aria-valuemin="0" aria-valuemax="100">
+                            {{ item.confidence_percent }}%
+                        </div>
+                    </div>
+                </td>
+                <td>{{ item.target_price|default('-', true) }}</td>
+                <td>{{ item.stop_loss|default('-', true) }}</td>
+                <td>{{ item.period|default('-', true) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- 分页 -->
+<nav aria-label="数据分页">
+    <ul class="pagination justify-content-center">
+        {% if data.has_prev %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('quant', page=data.prev_num) }}">上一页</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">上一页</span>
+        </li>
+        {% endif %}
+        
+        {% for page_num in data.iter_pages() %}
+        {% if page_num %}
+        {% if page_num != data.page %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('quant', page=page_num) }}">{{ page_num }}</a>
+        </li>
+        {% else %}
+        <li class="page-item active">
+            <span class="page-link">{{ page_num }}</span>
+        </li>
+        {% endif %}
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">…</span>
+        </li>
+        {% endif %}
+        {% endfor %}
+        
+        {% if data.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('quant', page=data.next_num) }}">下一页</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">下一页</span>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endblock %}

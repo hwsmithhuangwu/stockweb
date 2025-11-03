@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="jumbotron bg-primary text-white p-5 rounded">
+    <h1 class="display-4">欢迎来到A股分析平台</h1>
+    <p class="lead">专业的中国A股市场数据分析平台，提供龙虎榜、韭研公社、i问财等多维度数据。</p>
+    <hr class="my-4">
+    <p>通过我们的平台，您可以获取最新的股市数据、深度分析报告和量化交易信号。</p>
+    <div class="d-flex gap-3">
+        <a class="btn btn-light btn-lg" href="{{ url_for('dragontiger') }}" role="button">查看今日数据</a>
+        <a class="btn btn-success btn-lg" href="{{ url_for('import_today_data') }}" role="button" onclick="showLoading()">
+            <span id="import-text">导入今日数据</span>
+            <span id="import-loading" class="spinner-border spinner-border-sm d-none" role="status"></span>
+        </a>
+    </div>
+</div>
+
+<script>
+function showLoading() {
+    const importText = document.getElementById('import-text');
+    const importLoading = document.getElementById('import-loading');
+    const importButton = document.querySelector('a[href="{{ url_for('import_today_data') }}"]');
+    
+    importText.textContent = '正在导入...';
+    importLoading.classList.remove('d-none');
+    importButton.classList.add('disabled');
+}
+</script>
+
+<div class="row mt-5">
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title">龙虎榜数据</h5>
+                <p class="card-text">查看每日龙虎榜上榜股票及机构买卖情况</p>
+                <a href="{{ url_for('dragontiger') }}" class="btn btn-primary">进入</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title">韭研公社新闻</h5>
+                <p class="card-text">获取韭研公社的最新股票相关新闻和分析</p>
+                <a href="{{ url_for('jiuyan_news') }}" class="btn btn-success">进入</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title">i问财</h5>
+                <p class="card-text">查询各类财务指标和选股条件筛选结果</p>
+                <a href="{{ url_for('wencai') }}" class="btn btn-info">进入</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title">量化分析</h5>
+                <p class="card-text">基于算法模型的量化交易信号和策略回测</p>
+                <a href="{{ url_for('quant') }}" class="btn btn-warning">进入</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="alert alert-info" role="alert">
+            <h4 class="alert-heading">数据更新说明</h4>
+            <p>本平台每日自动更新各数据源信息，确保您获得最新最准确的A股市场动态。</p>
+            <hr>
+            <p class="mb-0">数据来源：东方财富、同花顺、韭研公社、i问财等权威金融数据平台。</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

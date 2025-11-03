@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Virtual Environment
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Database
+*.db
+*.sqlite3
+instance/
+
+# Logs
+*.log
+
+# Data files
+*.csv
+*.json
+*.md
+*.xlsx
+*.xls
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
+
+# Specific project files to ignore
+src/instance/
+src/龙虎榜数据.csv
+src/龙虎榜数据.md
+src/龙虎榜数据_原始.csv
+src/tdx_yzlhb_data.json
+src/tdx_yzlhb_top30.json
+src/jiuyangongshe_news.json
+src/jiuyangongshe_stocks.md
+
+# But keep these important files
+!src/templates/
+!src/static/
+!requirements.txt
+!Procfile
+!runtime.txt
+!railway.json
+!DEPLOYMENT_GUIDE.md
