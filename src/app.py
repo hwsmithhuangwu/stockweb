@@ -227,10 +227,11 @@ def import_today_data():
         print(f"导入今日数据时发生错误: {e}")
         return f"数据导入失败: {str(e)}"
 
+# 确保在Vercel环境中也能正确初始化数据库
+with app.app_context():
+    db.create_all()
+
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-    
     # 获取环境变量中的端口，Railway会提供PORT环境变量
     port = int(os.environ.get('PORT', 5000))
     host = os.environ.get('HOST', '0.0.0.0')
