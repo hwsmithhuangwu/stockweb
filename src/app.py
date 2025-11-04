@@ -231,9 +231,14 @@ def import_today_data():
 with app.app_context():
     db.create_all()
 
+# Vercel环境检测和启动
 if __name__ == '__main__':
     # 获取环境变量中的端口，Railway会提供PORT环境变量
     port = int(os.environ.get('PORT', 5000))
     host = os.environ.get('HOST', '0.0.0.0')
     
     app.run(host=host, port=port, debug=app.config['DEBUG'])
+else:
+    # Vercel Serverless环境
+    # 确保应用在导入时就能正确初始化
+    print("Vercel环境检测到，应用已初始化")
